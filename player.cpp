@@ -1,9 +1,19 @@
 #include "player.h"
 
 Player::Player(QGraphicsScene* scene) {
-    score = new health_score;
-    health = new health_score;
+    ;
     this->scene = scene;
+    // Pixmap2.scaled(80, 80);
+    setPixmap(QPixmap(":/new/prefix1/ship.png").scaled(80, 80));
+    score = new health_score(nullptr, 2);
+    health = new health_score(nullptr, 1);
+
+
+    scene -> addItem(score);
+    score-> setPos(score->x(),score->y()+25);
+    scene -> addItem(health);
+    health-> setPos(health->x(),health->y()+50);
+
 }
 
 
@@ -16,8 +26,8 @@ health_score* Player :: get_health (){
 }
 void Player::keyPressEvent(QKeyEvent *event)
 {
-    // bulletsound = new QMediaPlayer();
-    // bullet->setMedia(":/sounds/laser sound.mp3");
+    bulletsound = new QMediaPlayer();
+    bullet->setMedia(":/soundssss/laser sound.mp3");
 
     // *  Event Handling for the Player **
 
@@ -25,26 +35,26 @@ void Player::keyPressEvent(QKeyEvent *event)
     {
         if(pos().x()>0) // to prevent the player from getting out of the screen
         {
-            setPos(x()-70,y());
+            setPos(x()-50,y());
         }
     }
     else if(event->key()== Qt::Key_Right)
 
     { if(pos().x()+100<800) // to prevent the player from getting out of the screen
-            setPos(x()+70,y());
+            setPos(x()+50,y());
     }
     else if(event->key()== Qt::Key_Space)
     {
         Bullet * bullet = new Bullet(this);
 
-
+        // qDebug() << "aaaaaaaaaaaaaaaa";
         this->scene->addItem(bullet);
         bullet->setPos(x()+40, y());
         //sound
-        // if (bulletsound-> state()==QMediaPlayer :: PlayingState){
-        //     bulletsound->setPos(0);
-        // }
-        // else  bulletsound -> play();
+        if (bulletsound-> state()==QMediaPlayer :: PlayingState){
+            bulletsound->setPos(0);
+        }
+        else  bulletsound -> play();
     }
 
 

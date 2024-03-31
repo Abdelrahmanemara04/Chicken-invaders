@@ -1,39 +1,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <QGraphicsItem>
+#include <QGraphicsRectItem>
 #include <QObject>
-#include <QGraphicsScene>
-#include <QKeyEvent>
-#include "bullet.h"
-#include "health_score.h"
-#include <QDebug>
-#include "enemy.h"
-
-// #include"main.cpp"
-// #include <QMediaPlayer>
-
-
-class Player: public QObject, public QGraphicsPixmapItem
+#include <QMediaPlayer>
+#include <QAudioOutput>
+class player:public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-    health_score* score;
-    health_score* health;
-    QGraphicsScene* scene;
-    //sound
-    // QMediaPlayer* bulletsound;
-
 public:
-    Player(QGraphicsScene* scene);
-public:
+    player (QGraphicsPixmapItem * parent =0);
     void keyPressEvent(QKeyEvent * event);
-    health_score* get_score();
-    health_score* get_health();
-    void decrease_health();
-    void increase_score();
-
 public slots:
-    void createEnemy();
-
+    void spawn();
+private:
+    QMediaPlayer *bulletsound;
+    QAudioOutput *mainthemeoutput = new QAudioOutput;
 };
 
-#endif // PLAYER_H
+#endif // MYRECT_H
+

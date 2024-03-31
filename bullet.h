@@ -1,30 +1,23 @@
 #ifndef BULLET_H
 #define BULLET_H
-#include <QGraphicsItem>
+
+#include <QGraphicsRectItem>
 #include <QObject>
-#include <QGraphicsScene>
-#include <QTimer>
-#include <QList>
-#include "enemy.h"
-#include "player.h"
-#include "health_score.h"
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
-// #include"main.cpp"
-// #include <QMediaPlayer>
-
-
-class Player;
-class Bullet: public QObject, public QGraphicsPixmapItem
-{
-
+class laser: public QObject,public QGraphicsPixmapItem{
     Q_OBJECT
-    // QMediaPlayer* chickensound;
-    Player* rect;
 public:
-    Bullet(Player* p);
+    laser();
 
 public slots:
     void move();
+private:
+    QMediaPlayer *enemysound;
+    QAudioOutput *mainthemeoutput = new QAudioOutput;
+
+
 };
 
 #endif // BULLET_H

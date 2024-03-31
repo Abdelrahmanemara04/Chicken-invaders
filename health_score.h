@@ -2,16 +2,13 @@
 #define HEALTH_SCORE_H
 
 #include <QGraphicsTextItem>
-#include <QFont>
-class health_score: public QGraphicsTextItem{
+
+class health: public QGraphicsTextItem{
 public:
-    health_score(QGraphicsItem * parent=0);
+    health(QGraphicsItem * parent=0);
     void decrease();
-    int getHealth();
-    void increase();
-    int getScore();
 private:
-    int health;
-    int score;
+    int Health;
 };
+
 #endif // HEALTH_SCORE_H

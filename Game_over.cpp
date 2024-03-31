@@ -1,4 +1,4 @@
-#include "game_over.h"
+#include "Game.h"
 #include "ui_game_over.h"
 
 game_over::game_over(QWidget *parent)

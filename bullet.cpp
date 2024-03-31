@@ -1,62 +1,51 @@
-#include"bullet.h"
+#include "bullet.h"
+#include "Enemy.h"
+#include <QTimer>
+#include <QGraphicsScene>
+#include <QList>
+#include <QGraphicsPixmapItem>
+#include <QDebug>
+#include "Game.h"
+
+extern Game * game;
+laser::laser (): QObject(), QGraphicsPixmapItem(){
+    mainthemeoutput = new QAudioOutput;
+    mainthemeoutput->setVolume(50);
+    enemysound = new QMediaPlayer;
+    enemysound->setAudioOutput(mainthemeoutput);
+    enemysound->setSource(QUrl("qrc:/sounds/Rooster-call-sound.mp3"));
+
+    setPixmap(QPixmap(":/photos/arrow.png"));
 
 
-Bullet::Bullet(Player* p):QObject(), QGraphicsPixmapItem() {
+    QTimer * timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(move()));
 
-    // chickensound = new QMediaPlayer();
-    // chickensound->setMedia(":/sounds/chicken sound.mp3");
-    rect = p;
-    // QGraphicsPixmapItem * pixmap3 = new QGraphicsPixmapItem();
-    QPixmap Pixmap3(":/new/prefix1/red laser.png");
-    Pixmap3.scaled(5, 30);
-    // pixmap3->setPixmap(Pixmap3);
-
-    setPixmap(Pixmap3);
-    // QPixmap(QPixmap(":/new/prefix1/red laser.png").scaled(5, 30));
-    // *  Setting the bullets' size
-    //setRect(0,0,10,50);
-
-    // *  Generating the Bullets automatically
-    QTimer * timer = new QTimer();
-    connect(timer, SIGNAL(timeout()),this,SLOT (move()));
     timer->start(50);
 }
 
-// Move function is used to 1-  move the bullet upwards
-// 2- Handle the collision of the bullets with enemies
-void Bullet:: move(){
-                    qDebug() << "you";
-    // *  Getting the colliding items with the Bullet
+
+
+void laser::move(){
+
     QList<QGraphicsItem *> colliding_items = collidingItems();
-    for(int i=0, n=colliding_items.size(); i<n; ++i)
-    {
-        if(typeid(*(colliding_items[i])) == typeid(Enemy))
-        {
-            rect->increase_score();
+    for (int i = 0, n = colliding_items.size(); i < n; ++i){
+        if (typeid(*(colliding_items[i])) == typeid(Enemy)){
 
             scene()->removeItem(colliding_items[i]);
             scene()->removeItem(this);
+            enemysound->play();
+            game->score->increase();
+
             delete colliding_items[i];
             delete this;
-            // if (chickensound-> state()==QMediaPlayer :: PlayingState){
-            //     chickensound->setPos(0);
-            // }
-            // else  chickensound -> play();
             return;
         }
-
     }
-
-    // *  Moving the bullets upward
+    // move bullet up
     setPos(x(),y()-10);
-    if(pos().y()+rect->y()<0)
-    {
+    if (pos().y() < 0){
         scene()->removeItem(this);
         delete this;
     }
 }
-//up to date
-// <<<<<<< HEAD
-// =======
-
-// >>>>>>> refs/remotes/origin/main
